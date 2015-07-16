@@ -11,14 +11,32 @@ function Block(x, y, width, height) {
 };
 
 Block.prototype.draw = function() {
-  context.fillRect();
+  context.fillRect(this.x, this.y, this.width, this.height);
+  return this;
 };
 
-function gameLoop() {
-  if(x < canvas.width - width) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-  };
+Block.prototype.move = function() {
+  if(this.y + this.height < canvas.height) { this.y++ };
+  return this;
 };
+
+
+canvas.addEventListener("click", function() {
+
+});
+
+var blocks = [];
+blocks.push(new Block(25, 25, 25, 25));
+blocks.push(new Block(100, 25, 25, 25));
+blocks.push(new Block(175, 25, 25, 25));
+
+requestAnimationFrame(function gameLoop() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  blocks.forEach(function(block) {
+    block.draw().move();
+  });
+  requestAnimationFrame(gameLoop);
+});
 
 gameLoop();
 
